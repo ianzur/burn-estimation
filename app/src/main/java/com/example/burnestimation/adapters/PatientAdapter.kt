@@ -48,7 +48,7 @@ class PatientAdapter(
         holder.recordingDate.text = patient.date
 
         holder.card.setOnClickListener {
-            val action = PatientsFragmentDirections.actionPatientsFragmentToPatientDetailFragment()
+            val action = PatientsFragmentDirections.actionPatientsFragmentToPatientDetailFragment(patientID = patient.id)
             holder.view.findNavController().navigate(action)
         }
     }

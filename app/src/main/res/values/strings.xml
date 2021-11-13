@@ -10,7 +10,7 @@
     <string name="button_generate">generate</string>
     <string name="patient_height">Patient Height</string>
     <string name="patient_weight">Patient Weight</string>
-    <string name="attending_physician">Attending Physician</string>
+    <string name="attending_provider">Attending Provider</string>
     <string name="institution_name">Institution Name</string>
     <string name="date">Date</string>
     <string name="add_patient">add patient</string>

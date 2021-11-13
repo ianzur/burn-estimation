@@ -21,10 +21,20 @@
         android:id="@+id/patientDetailFragment"
         android:name="com.example.burnestimation.PatientDetailFragment"
         android:label="patient ID TODO"
-        tools:layout="@layout/fragment_patient_detail" />
+        tools:layout="@layout/fragment_patient_detail" >
+        <argument
+            android:name="patientID"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/patientNewFragment"
         android:name="com.example.burnestimation.PatientNewFragment"
         android:label="@string/new_patient"
-        tools:layout="@layout/fragment_patient_new" />
+        tools:layout="@layout/fragment_patient_new" >
+        <action
+            android:id="@+id/action_patientNewFragment_to_patientsFragment"
+            app:destination="@id/patientsFragment"
+            app:popUpTo="@id/patientsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>
