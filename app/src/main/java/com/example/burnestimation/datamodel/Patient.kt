@@ -5,7 +5,7 @@ package com.example.burnestimation.datamodel
 import androidx.annotation.DrawableRes
 
 /**
- * These data associated with an individual patient
+ * The data associated with an individual patient
  */
 data class Patient(
     val id: String,

@@ -39,6 +39,7 @@ class PatientNewFragment : Fragment() {
             pIDField.text = generateID(12)
         }
 
+        // record patient data and launch fullscreen camera widget
         val cameraBtn = view.findViewById<Button>(R.id.buttonCamera)
         cameraBtn.setOnClickListener {
             // TODO: check required fields
@@ -46,6 +47,7 @@ class PatientNewFragment : Fragment() {
             Toast.makeText(requireContext(), "launch camera widget", Toast.LENGTH_SHORT).show()
         }
 
+        // cancel new patient create
         val cancelBtn = view.findViewById<Button>(R.id.buttonCancel)
         cancelBtn.setOnClickListener {
             val action = PatientNewFragmentDirections.actionPatientNewFragmentToPatientsFragment()
