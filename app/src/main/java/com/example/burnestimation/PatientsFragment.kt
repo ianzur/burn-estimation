@@ -34,7 +34,7 @@ class PatientsFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = PatientAdapter(requireContext(), myDataset)
-//        recyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
 
         return view
     }
