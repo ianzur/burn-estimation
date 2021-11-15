@@ -16,4 +16,8 @@
     <string name="add_patient">add patient</string>
     <string name="patient_id">Patient ID: %s</string>
     <string name="card_date">Date: %s</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="capture">Capture</string>
+    <string name="camera_permission_required">Taking a photo requires camera permission</string>
 </resources>

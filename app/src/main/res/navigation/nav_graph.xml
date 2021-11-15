@@ -11,11 +11,11 @@
         android:label="@string/app_name"
         tools:layout="@layout/fragment_patients" >
         <action
-            android:id="@+id/action_patientsFragment_to_patientNewFragment"
-            app:destination="@id/patientNewFragment" />
-        <action
             android:id="@+id/action_patientsFragment_to_patientDetailFragment"
             app:destination="@id/patientDetailFragment" />
+        <action
+            android:id="@+id/action_patientsFragment_to_patientNewFragment"
+            app:destination="@id/patientNewFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientDetailFragment"
@@ -36,5 +36,23 @@
             app:destination="@id/patientsFragment"
             app:popUpTo="@id/patientsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_patientNewFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.burnestimation.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_patientNewFragment"
+            app:destination="@id/patientNewFragment" />
+        <argument
+            android:name="cameraId"
+            app:argType="string" />
+        <argument
+            android:name="pixel_format"
+            app:argType="integer" />
     </fragment>
 </navigation>
