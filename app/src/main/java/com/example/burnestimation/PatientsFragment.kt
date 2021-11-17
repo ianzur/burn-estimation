@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.burnestimation.adapters.PatientAdapter
-import com.example.burnestimation.data.Datasource
+import com.example.burnestimation.adapters.PatientListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 const val TAG = "patientsFragment"
@@ -27,13 +26,11 @@ class PatientsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val myDataset = Datasource().loadPatients()
-
         val view = inflater.inflate(R.layout.fragment_patients, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = PatientAdapter(requireContext(), myDataset)
+        recyclerView.adapter = PatientListAdapter()
         recyclerView.setHasFixedSize(true)
 
         return view
@@ -53,7 +50,7 @@ class PatientsFragment : Fragment() {
      * Setup options menu
      */
     private fun setupOptionsMenu() {
-
+        // TODO: add menu here (search|sort, about. etc)
     }
 
     /**
