@@ -38,6 +38,8 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
             // delete all content
             patientDao.deleteAll()
 
+            patientDao.insert(Patient("asdfoiuyh"))
+
         }
 //
 //        private fun resourceToBytes(id: Int) : ByteArray {

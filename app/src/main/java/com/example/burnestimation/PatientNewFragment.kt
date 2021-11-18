@@ -32,9 +32,11 @@ import com.google.android.material.snackbar.Snackbar
  * set new patient info here before taking picture for Burn Area Estimation
  */
 class PatientNewFragment : Fragment() {
-//
-//    var db: DatabaseHandler = DatabaseHandler(activity)
-    private val model: PatientViewModel by activityViewModels()
+
+    // link to the database application
+    private val patientViewModel: PatientViewModel by viewModels {
+        PatientViewModelFactory((requireActivity().application as PatientsApplication).repository)
+    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -109,15 +111,10 @@ class PatientNewFragment : Fragment() {
         cameraBtn.setOnClickListener {
             // TODO: check required fields
 
-            Log.d("cameraBtn: ", "about to insert patient")
             val patient = Patient(pIDField.text.toString())
 
-            Log.d("cameraBtn: ", "pre patient inserted")
-
-            model.insert(patient)
-
-            Log.d("cameraBtn: ", "post patient inserted")
-
+            // insert new patient into local database
+            patientViewModel.insert(patient)
 
             // get back facing camera ID
             val cameraID = getFirstCameraIdFacing(cameraManager, CameraCharacteristics.LENS_FACING_BACK)

@@ -10,11 +10,12 @@ import java.util.*
  */
 @Entity(tableName = "patient_table")
 class Patient(
-    @PrimaryKey @ColumnInfo(name = "id") var id: String,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Int,
+    @ColumnInfo(name = "hospitalId") var hospitalId: String = "",
     @ColumnInfo(name = "name") var name: String = "",
     @ColumnInfo(name = "height") var height: Int = 0,
     @ColumnInfo(name = "weight") var weight: Int = 0,
-    @ColumnInfo(name = "date") var date: String = "",
+    @ColumnInfo(name = "date") var date: String = "", // TODO: convert to standard date time format
     @ColumnInfo(name = "attendingProvider") var attendingProvider: String = "",
     @ColumnInfo(name = "institution") var institution: String = "",
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) var image: ByteArray? = null
