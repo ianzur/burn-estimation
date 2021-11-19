@@ -20,11 +20,11 @@
     <fragment
         android:id="@+id/patientDetailFragment"
         android:name="com.example.burnestimation.PatientDetailFragment"
-        android:label="patient ID TODO"
-        tools:layout="@layout/fragment_patient_detail" >
+        android:label="@string/patient_detail"
+        tools:layout="@layout/fragment_patient_detail">
         <argument
             android:name="patientID"
-            app:argType="string" />
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/patientNewFragment"
@@ -43,8 +43,7 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.example.burnestimation.CameraFragment"
-        android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
+        tools:layout="@layout/fragment_camera">
         <action
             android:id="@+id/action_cameraFragment_to_patientNewFragment"
             app:destination="@id/patientNewFragment" />

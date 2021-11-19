@@ -13,10 +13,10 @@ interface PatientDao {
     @Query("SELECT * FROM patient_table ORDER BY date DESC")
     fun getDateOrderedPatients(): Flow<List<Patient>>
 
-    @Query("SELECT * FROM patient_table WHERE id = :patientId")
-    fun getPatient(patientId: Int): Flow<Patient>
+    @Query("SELECT * FROM patient_table WHERE id = :patientdbId")
+    fun getPatient(patientdbId: Int): Flow<Patient>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(patient: Patient)
 
     @Query("DELETE FROM patient_table")

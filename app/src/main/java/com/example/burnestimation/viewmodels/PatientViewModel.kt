@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.burnestimation.datamodel.Patient
 import com.example.burnestimation.datamodel.PatientRepository
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -22,6 +23,8 @@ class PatientViewModel(private val repository: PatientRepository) : ViewModel() 
         Log.d("PatientViewModel", "insert patient")
         repository.insert(patient)
     }
+
+    fun getPatient(patientId: Int): LiveData<Patient> = repository.getPatient(patientId).asLiveData()
 
 }
 

@@ -18,7 +18,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.burnestimation.datamodel.Patient
@@ -95,8 +94,6 @@ class PatientNewFragment : Fragment() {
         // request camera permissions
         requestPermission()
 
-
-
         val cameraManager =
             requireContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
@@ -111,7 +108,11 @@ class PatientNewFragment : Fragment() {
         cameraBtn.setOnClickListener {
             // TODO: check required fields
 
-            val patient = Patient(null, pIDField.text.toString())
+            val patient = Patient(
+                null,
+                pIDField.text.toString(),
+                // TODO: link all fields
+                )
 
             // insert new patient into local database
             patientViewModel.insert(patient)
@@ -120,7 +121,7 @@ class PatientNewFragment : Fragment() {
             val cameraID = getFirstCameraIdFacing(cameraManager, CameraCharacteristics.LENS_FACING_BACK)
 
             if (cameraID != null) {
-                val action = PatientNewFragmentDirections.actionPatientNewFragmentToCameraFragment(cameraId = cameraID, pixelFormat = ImageFormat.JPEG )
+                val action = PatientNewFragmentDirections.actionPatientNewFragmentToCameraFragment(cameraId = cameraID, pixelFormat = ImageFormat.JPEG)
                 view.findNavController().navigate(action)
             } else {
                 Snackbar.make(

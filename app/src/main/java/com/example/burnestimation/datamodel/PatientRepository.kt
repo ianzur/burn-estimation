@@ -22,4 +22,9 @@ class PatientRepository(private val patientDao: PatientDao) {
         patientDao.insert(patient)
     }
 
+    // get single patient
+    fun getPatient(patientId: Int): Flow<Patient> {
+        return patientDao.getPatient(patientId)
+    }
+
 }

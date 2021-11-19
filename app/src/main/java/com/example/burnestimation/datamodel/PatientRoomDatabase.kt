@@ -1,10 +1,7 @@
 package com.example.burnestimation.datamodel
 
-import android.R.attr
+import android.content.ContentResolver
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory.decodeResource
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,8 +9,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.burnestimation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import android.graphics.drawable.BitmapDrawable
-import java.io.ByteArrayOutputStream
+import android.net.Uri
+import androidx.annotation.AnyRes
+
+
+
 
 
 @Database(entities = [Patient::class], version = 1, exportSchema = false)
@@ -22,34 +22,92 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
     abstract fun patientDao(): PatientDao
 
     private class PatientDatabaseCallback(
-        private val scope: CoroutineScope
+        private val scope: CoroutineScope,
+        val context: Context,
     ) : RoomDatabase.Callback() {
+
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.patientDao())
+                    populateDatabase(database.patientDao(), context)
                 }
             }
         }
 
-        suspend fun populateDatabase(patientDao: PatientDao) {
+        suspend fun populateDatabase(patientDao: PatientDao, context: Context) {
             // delete all content
             patientDao.deleteAll()
 
-            patientDao.insert(Patient(null, "asdfoiuyh"))
+            // burn patients shipped with the app
+            patientDao.insert(
+                Patient(
+                    null,
+                    "D5GF5EJKQ30G",
+                    "John Smith",
+                    180,
+                    150,
+                    "11/23/21",
+                    "Dr. Bunsen Honeydew",
+                    "www.vicburns.org.au The Victorian Adult Burns Service, Alfred Health, Melbourne, Australia",
+                    R.drawable.vicburns_36.toString()
+                )
+            )
 
+            patientDao.insert(
+                Patient(
+                    null,
+                    "FJ0Y2S7HLQ42",
+                    "Ed Smith",
+                    180,
+                    150,
+                    "11/23/21",
+                    "Dr. Bunsen Honeydew",
+                    "www.vicburns.org.au The Victorian Adult Burns Service, Alfred Health, Melbourne, Australia",
+                    R.drawable.vicburns_16.toString()
+
+                )
+            )
+
+            patientDao.insert(
+                Patient(
+                    null,
+                    "A5DR863FL4E3",
+                    "Baby Smith",
+                    24,
+                    18,
+                    "11/23/21",
+                    "Dr. Bunsen Honeydew",
+                    "unknown",
+                    R.drawable.burned_baby.toString()
+                )
+            )
         }
-//
-//        private fun resourceToBytes(id: Int) : ByteArray {
-//
-//            val bitmap = decodeResource(Resources.getSystem(), id)
-//            val stream = ByteArrayOutputStream()
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-//            return stream.toByteArray()
-//        }
+
+        /**
+         * get uri to drawable or any other resource type if u wish
+         * @param context - context
+         * @param drawableId - drawable res id
+         * @return - uri
+         *
+         * from: https://stackoverflow.com/a/36062748/8615419
+         */
+        fun getUriToDrawable(
+            context: Context,
+            drawableId: Int
+        ): Uri {
+            return Uri.parse(
+                ContentResolver.SCHEME_ANDROID_RESOURCE
+                        + "://" + context.resources.getResourcePackageName(drawableId)
+                        + '/' + context.resources.getResourceTypeName(drawableId)
+                        + '/' + context.resources.getResourceEntryName(drawableId)
+            )
+        }
+
     }
+
+
 
     companion object {
         // Singleton prevent multiple instance of database opening at the same time
@@ -66,9 +124,9 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     PatientRoomDatabase::class.java,
-                    "word_database"
+                    "patient_database"
                 )
-                    .addCallback(PatientDatabaseCallback(scope))
+                    .addCallback(PatientDatabaseCallback(scope, context))
                     .build()
 
                 INSTANCE = instance

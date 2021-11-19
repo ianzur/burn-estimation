@@ -18,7 +18,7 @@ class Patient(
     @ColumnInfo(name = "date") var date: String = "", // TODO: convert to standard date time format
     @ColumnInfo(name = "attendingProvider") var attendingProvider: String = "",
     @ColumnInfo(name = "institution") var institution: String = "",
-    @ColumnInfo(name = "image", typeAffinity = ColumnInfo.BLOB) var image: ByteArray? = null
+    @ColumnInfo(name = "imageUri") var imageUri: String = "",
 ) {
 
     override fun equals(other: Any?): Boolean {
@@ -34,7 +34,7 @@ class Patient(
         if (date != other.date) return false
         if (attendingProvider != other.attendingProvider) return false
         if (institution != other.institution) return false
-        if (!image.contentEquals(other.image)) return false
+        if (imageUri != other.imageUri) return false
 
         return true
     }

@@ -44,7 +44,7 @@ class PatientListAdapter : ListAdapter<Patient, PatientListAdapter.PatientViewHo
         holder.recordingDate.text = context.getString(R.string.card_date, patient.date)
 
         holder.card.setOnClickListener {
-            val action = PatientsFragmentDirections.actionPatientsFragmentToPatientDetailFragment(patientID = patient.hospitalId)
+            val action = PatientsFragmentDirections.actionPatientsFragmentToPatientDetailFragment(patientID = patient.id!!)
             holder.view.findNavController().navigate(action)
         }
     }
