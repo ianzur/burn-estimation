@@ -38,7 +38,7 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
             // delete all content
             patientDao.deleteAll()
 
-            patientDao.insert(Patient("asdfoiuyh"))
+            patientDao.insert(Patient(null, "asdfoiuyh"))
 
         }
 //

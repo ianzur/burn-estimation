@@ -37,16 +37,20 @@ class PatientListAdapter : ListAdapter<Patient, PatientListAdapter.PatientViewHo
      */
     override fun onBindViewHolder(holder: PatientViewHolder, position: Int) {
         val patient = getItem(position)
-        holder.patientID.text = patient.id
-        holder.recordingDate.text = patient.date
+        val context = holder.card.context
+
+        holder.databaseID.text = context.getString(R.string.db_id, patient.id.toString())
+        holder.patientID.text = context.getString(R.string.patient_id, patient.hospitalId)
+        holder.recordingDate.text = context.getString(R.string.card_date, patient.date)
 
         holder.card.setOnClickListener {
-            val action = PatientsFragmentDirections.actionPatientsFragmentToPatientDetailFragment(patientID = patient.id)
+            val action = PatientsFragmentDirections.actionPatientsFragmentToPatientDetailFragment(patientID = patient.hospitalId)
             holder.view.findNavController().navigate(action)
         }
     }
 
     class PatientViewHolder(val view: View): RecyclerView.ViewHolder(view) {
+        val databaseID: TextView = view.findViewById(R.id.list_item_databaseID)
         val patientID: TextView = view.findViewById(R.id.list_item_patientID)
         val recordingDate: TextView = view.findViewById(R.id.list_item_recordingDate)
         val card: MaterialCardView = view.findViewById(R.id.card)

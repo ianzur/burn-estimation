@@ -111,7 +111,7 @@ class PatientNewFragment : Fragment() {
         cameraBtn.setOnClickListener {
             // TODO: check required fields
 
-            val patient = Patient(pIDField.text.toString())
+            val patient = Patient(null, pIDField.text.toString())
 
             // insert new patient into local database
             patientViewModel.insert(patient)

@@ -10,7 +10,7 @@ import java.util.*
  */
 @Entity(tableName = "patient_table")
 class Patient(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Int,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id: Int? = null,
     @ColumnInfo(name = "hospitalId") var hospitalId: String = "",
     @ColumnInfo(name = "name") var name: String = "",
     @ColumnInfo(name = "height") var height: Int = 0,

@@ -14,8 +14,9 @@
     <string name="institution_name">Institution Name</string>
     <string name="date">Date</string>
     <string name="add_patient">add patient</string>
-    <string name="patient_id">Patient ID: %s</string>
-    <string name="card_date">Date: %s</string>
+    <string name="patient_id">patient ID: %1$s</string>
+    <string name="db_id">local database ID: %1$s</string>
+    <string name="card_date">Date: %1$s</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="capture">Capture</string>
