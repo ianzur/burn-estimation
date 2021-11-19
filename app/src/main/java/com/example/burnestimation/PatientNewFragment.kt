@@ -18,15 +18,25 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.example.burnestimation.datamodel.Patient
+import com.example.burnestimation.viewmodels.PatientViewModel
+import com.example.burnestimation.viewmodels.PatientViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
-// TODO: read input data, create new patient, add to dataset.
+// TODO: read input data, create new patient, add to dataset / local database.
 /**
  * New patient fragment
  * set new patient info here before taking picture for Burn Area Estimation
  */
 class PatientNewFragment : Fragment() {
+
+    // link to the database application
+    private val patientViewModel: PatientViewModel by viewModels {
+        PatientViewModelFactory((requireActivity().application as PatientsApplication).repository)
+    }
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -45,7 +55,7 @@ class PatientNewFragment : Fragment() {
                 Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
                 // Permission has already been granted
-                // You can use the API that requires the permission.
+                Log.d("Permission: ", "Permissions have already been granted")
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
                 Snackbar.make(
@@ -85,6 +95,8 @@ class PatientNewFragment : Fragment() {
         // request camera permissions
         requestPermission()
 
+
+
         val cameraManager =
             requireContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
@@ -99,12 +111,23 @@ class PatientNewFragment : Fragment() {
         cameraBtn.setOnClickListener {
             // TODO: check required fields
 
+            val patient = Patient(null, pIDField.text.toString())
+
+            // insert new patient into local database
+            patientViewModel.insert(patient)
+
             // get back facing camera ID
             val cameraID = getFirstCameraIdFacing(cameraManager, CameraCharacteristics.LENS_FACING_BACK)
 
             if (cameraID != null) {
                 val action = PatientNewFragmentDirections.actionPatientNewFragmentToCameraFragment(cameraId = cameraID, pixelFormat = ImageFormat.JPEG )
                 view.findNavController().navigate(action)
+            } else {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    "failed find back facing camera!",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
         }
 
