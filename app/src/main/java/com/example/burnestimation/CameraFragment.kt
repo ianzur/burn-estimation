@@ -257,15 +257,15 @@ class CameraFragment : Fragment() {
                     }
 
                     // Display the photo taken to user
-//                    lifecycleScope.launch(Dispatchers.Main) {
-////                        requireView().findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToPatientNewFragment())
-//
-////                        navController.navigate(CameraFragmentDirections
-////                            .actionCameraToJpegViewer(output.absolutePath)
-////                            .setOrientation(result.orientation)
-////                            .setDepth(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-////                                    result.format == ImageFormat.DEPTH_JPEG))
-//                    }
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        requireView().findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToPatientNewFragment())
+
+//                        navController.navigate(CameraFragmentDirections
+//                            .actionCameraToJpegViewer(output.absolutePath)
+//                            .setOrientation(result.orientation)
+//                            .setDepth(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+//                                    result.format == ImageFormat.DEPTH_JPEG))
+                    }
                 }
 
                 // Re-enable click listener after photo is taken
@@ -429,7 +429,7 @@ class CameraFragment : Fragment() {
                 val buffer = result.image.planes[0].buffer
                 val bytes = ByteArray(buffer.remaining()).apply { buffer.get(this) }
                 try {
-                    val output = createFile(requireContext(), "jpg")
+                    val output = File(args.imgUri)
                     FileOutputStream(output).use { it.write(bytes) }
                     cont.resume(output)
                 } catch (exc: IOException) {

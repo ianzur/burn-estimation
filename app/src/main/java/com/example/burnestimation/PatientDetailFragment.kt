@@ -33,7 +33,7 @@ import java.io.File
 class PatientDetailFragment : Fragment() {
 
     // navigation arguments
-    val args: PatientDetailFragmentArgs by navArgs()
+    private val args: PatientDetailFragmentArgs by navArgs()
 
     // link to the database application
     private val patientViewModel: PatientViewModel by viewModels {
@@ -61,6 +61,7 @@ class PatientDetailFragment : Fragment() {
         patientViewModel.getPatient(args.patientID).observe(viewLifecycleOwner, Observer {
             Log.d(TAG, it.imageUri)
 
+            // set image view
             try {
                 Log.d(TAG, "from drawable resource (shipped with app) ${it.imageUri}")
                 imageView.setImageResource(it.imageUri.toInt())
@@ -70,18 +71,21 @@ class PatientDetailFragment : Fragment() {
                 // check if the file exists
                 if ( ! File(it.imageUri).exists() ) {
                     Log.e(TAG, "File ${it.imageUri} not found!")
-                    Toast.makeText(context, "ERROR: File NOT found: ${it.imageUri}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "ERROR: File NOT found!\n${it.imageUri}", Toast.LENGTH_LONG).show()
                     imageView.setImageResource(R.drawable.ic_baseline_error_outline_24)
                 } else {
                     val bitmap = BitmapFactory.decodeFile(it.imageUri)
                     imageView.setImageBitmap(bitmap)
                 }
             }
+
+            // set other patient info
+
         })
 
         val cardPatient = view.findViewById<CardView>(R.id.card_patient)
         val arrowPatient = view.findViewById<ImageView>(R.id.arrow_button_patient)
-        val hiddenGroupPatient = view.findViewById<LinearLayout>(R.id.hidden_view_patient)
+        val hiddenGroupPatient = view.findViewById<LinearLayout>(R.id.table_patient)
         val hiddenDividerPatient = view.findViewById<View>(R.id.divider_patient)
 
         arrowPatient.setOnClickListener { _ ->

@@ -7,6 +7,7 @@ import android.graphics.ImageFormat
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.hardware.camera2.CameraMetadata
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -24,6 +26,13 @@ import com.example.burnestimation.datamodel.Patient
 import com.example.burnestimation.viewmodels.PatientViewModel
 import com.example.burnestimation.viewmodels.PatientViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import java.io.File
+import java.security.Timestamp
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 // TODO: read input data, create new patient, add to dataset / local database.
 /**
@@ -88,6 +97,7 @@ class PatientNewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_patient_new, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -98,9 +108,16 @@ class PatientNewFragment : Fragment() {
             requireContext().getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
         val genIDButton = view.findViewById<Button>(R.id.buttonGenerateID)
-        val pIDField = view.findViewById<TextView>(R.id.patientID)
+        val hospitalIDField = view.findViewById<TextView>(R.id.patientID)
+        val nameField = view.findViewById<TextView>(R.id.patientName)
+        val heightField = view.findViewById<TextView>(R.id.patientHeight)
+        val weightField = view.findViewById<TextView>(R.id.patientWeight)
+        val dateField = view.findViewById<TextView>(R.id.recordingDate)
+        val hcProviderField = view.findViewById<TextView>(R.id.attendingPhysician)
+        val institutionField = view.findViewById<TextView>(R.id.institution)
+
         genIDButton.setOnClickListener {
-            pIDField.text = generateID(12)
+            hospitalIDField.text = generateID(12)
         }
 
         // record patient data and launch fullscreen camera widget
@@ -108,10 +125,22 @@ class PatientNewFragment : Fragment() {
         cameraBtn.setOnClickListener {
             // TODO: check required fields
 
+            val imgUri = File(
+                requireActivity().filesDir,
+                "IMG_${SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS", Locale.US).format(Date())}.jpg"
+            )
+            Log.d(TAG, imgUri.toString())
+
             val patient = Patient(
                 null,
-                pIDField.text.toString(),
-                // TODO: link all fields
+                hospitalIDField.text.toString(),
+                nameField.text.toString(),
+                heightField.text.toString().toInt(),
+                weightField.text.toString().toInt(),
+                dateField.text.toString(),
+                hcProviderField.text.toString(),
+                institutionField.text.toString(),
+                imgUri.toString(),
                 )
 
             // insert new patient into local database
@@ -121,7 +150,12 @@ class PatientNewFragment : Fragment() {
             val cameraID = getFirstCameraIdFacing(cameraManager, CameraCharacteristics.LENS_FACING_BACK)
 
             if (cameraID != null) {
-                val action = PatientNewFragmentDirections.actionPatientNewFragmentToCameraFragment(cameraId = cameraID, pixelFormat = ImageFormat.JPEG)
+                val action = PatientNewFragmentDirections
+                    .actionPatientNewFragmentToCameraFragment(
+                        cameraId = cameraID,
+                        pixelFormat = ImageFormat.JPEG,
+                        imgUri = imgUri.toString()
+                    )
                 view.findNavController().navigate(action)
             } else {
                 Snackbar.make(

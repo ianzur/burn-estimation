@@ -53,5 +53,11 @@
         <argument
             android:name="pixel_format"
             app:argType="integer" />
+        <argument
+            android:name="imgUri"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_cameraFragment_to_patientDetailFragment2"
+            app:destination="@id/patientDetailFragment" />
     </fragment>
 </navigation>
