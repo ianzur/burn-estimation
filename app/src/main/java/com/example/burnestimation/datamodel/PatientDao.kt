@@ -17,7 +17,7 @@ interface PatientDao {
     fun getPatient(patientdbId: Int): Flow<Patient>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(patient: Patient)
+    suspend fun insert(patient: Patient): Long
 
     @Query("DELETE FROM patient_table")
     suspend fun deleteAll()

@@ -258,7 +258,7 @@ class CameraFragment : Fragment() {
 
                     // Display the photo taken to user
                     lifecycleScope.launch(Dispatchers.Main) {
-                        requireView().findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToPatientNewFragment())
+                        requireView().findNavController().navigate(CameraFragmentDirections.actionCameraFragmentToPatientDetailFragment(args.patientDBID))
 
 //                        navController.navigate(CameraFragmentDirections
 //                            .actionCameraToJpegViewer(output.absolutePath)

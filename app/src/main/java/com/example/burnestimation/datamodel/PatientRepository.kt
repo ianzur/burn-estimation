@@ -18,8 +18,8 @@ class PatientRepository(private val patientDao: PatientDao) {
     // off the main thread
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insert(patient: Patient) {
-        patientDao.insert(patient)
+    suspend fun insert(patient: Patient): Long {
+        return patientDao.insert(patient)
     }
 
     // get single patient
