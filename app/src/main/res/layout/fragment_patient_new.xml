@@ -1,155 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/form_spacing" >
+            android:orientation="vertical"
+            android:padding="@dimen/form_spacing"
+            android:showDividers="middle"
+            android:divider="@drawable/divider" >
 
-            <EditText
-                android:id="@+id/patientName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_patientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/patient_name_hint"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:importantForAutofill="no" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:importantForAutofill="no">
 
-            <EditText
-                android:id="@+id/patientID"
-                android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/patientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:nextFocusDown="@id/patientID"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_patientID"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:layout_marginEnd="@dimen/form_spacing"
                 android:hint="@string/patient_id_hint"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toStartOf="@+id/buttonGenerateID"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/patientName"
-                android:importantForAutofill="no" />
-
-            <Button
-                android:id="@+id/buttonGenerateID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_generate"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/patientID"
-                app:layout_constraintTop_toTopOf="@+id/patientID" />
-
-            <EditText
-                android:id="@+id/patientHeight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:layout_marginEnd="@dimen/form_spacing"
-                android:hint="@string/patient_height"
-                android:inputType="number"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toStartOf="@+id/patientWeight"
-                app:layout_constraintHorizontal_weight=".5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/patientID"
-                android:importantForAutofill="no" />
-
-            <EditText
-                android:id="@+id/patientWeight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/form_spacing"
-                android:hint="@string/patient_weight"
-                android:inputType="number"
-                android:minHeight="48dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight=".5"
-                app:layout_constraintStart_toEndOf="@+id/patientHeight"
-                app:layout_constraintTop_toTopOf="@+id/patientHeight"
-                android:importantForAutofill="no" />
-
-            <EditText
-                android:id="@+id/recordingDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:hint="@string/date"
-                android:inputType="date"
-                android:minHeight="48dp"
-                app:layout_constraintTop_toBottomOf="@+id/patientHeight"
-                android:importantForAutofill="no" />
-
-            <EditText
-                android:id="@+id/attendingPhysician"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:hint="@string/attending_provider"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintTop_toBottomOf="@+id/recordingDate"
-                android:importantForAutofill="no" />
-
-            <EditText
-                android:id="@+id/institution"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:hint="@string/institution_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                app:layout_constraintTop_toBottomOf="@+id/attendingPhysician" />
+                app:endIconDrawable="@drawable/ic_baseline_refresh_24"
+                app:endIconMode="custom" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/patientID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nextFocusDown="@id/patientHeight"
+                    android:inputType="textPersonName"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_patientHeight"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:hint="@string/patient_height"
+                    android:importantForAutofill="no"
+                    app:suffixText="inches"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/patientHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nextFocusDown="@id/patientWeight"
+                        android:inputType="number"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_patientWeight"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:hint="@string/patient_weight"
+                    android:importantForAutofill="no"
+                    app:suffixText="lbs"
+                    app:errorEnabled="true" >
+
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/patientWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nextFocusDown="@id/recordingDate"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_recordingDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/date"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:importantForAutofill="no"
+                app:endIconDrawable="@drawable/ic_baseline_calendar_today_24"
+                app:endIconMode="custom"
+                app:errorEnabled="true" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/recordingDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="datetime"
+                    android:nextFocusDown="@id/attendingProvider" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_attendingProvider"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/attending_provider"
+                android:importantForAutofill="no"
+                app:endIconDrawable="@drawable/ic_baseline_masks_24"
+                app:endIconMode="custom" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/attendingProvider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nextFocusDown="@id/institution"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_institution"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/institution_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:importantForAutofill="no"
+                app:endIconDrawable="@drawable/ic_baseline_local_hospital_24"
+                app:endIconMode="custom" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/institution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
                 android:id="@+id/checkBoxUsageNotification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
                 android:text="@string/usage_warning"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/institution" />
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkBoxUsageNotification" />
+                android:background="?android:attr/listDivider" />
 
-            <Button
-                android:id="@+id/buttonCancel"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonCancel"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/form_spacing"
+                    android:text="@string/button_cancel" />
+
+                <Button
+                    android:id="@+id/buttonCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/form_spacing"
+                    android:text="@string/button_camera" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/form_spacing"
-                android:layout_marginEnd="@dimen/form_spacing"
-                android:text="@string/button_cancel"
-                app:layout_constraintEnd_toStartOf="@+id/buttonCamera"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider" />
+                android:layout_gravity="center"
+                android:text="*Required field"/>
 
-            <Button
-                android:id="@+id/buttonCamera"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/form_spacing"
-                android:text="@string/button_camera"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/buttonCancel"
-                app:layout_constraintTop_toTopOf="@+id/buttonCancel" />
+        </LinearLayout>
 
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
 </layout>

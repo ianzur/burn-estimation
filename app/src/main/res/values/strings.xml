@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Burn Estimation</string>
-    <string name="usage_warning">I will NOT use this app for clinical diagnosis.</string>
+    <string name="usage_warning">I will NOT use this app for clinical diagnosis.*</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_patient">New Patient</string>
     <string name="patient_name_hint">Patient Name</string>
@@ -8,18 +8,21 @@
     <string name="button_cancel">cancel</string>
     <string name="button_camera">camera</string>
     <string name="button_generate">generate</string>
-    <string name="patient_height">Patient Height</string>
-    <string name="patient_weight">Patient Weight</string>
+    <string name="patient_height">Patient Height*</string>
+    <string name="p_info_height">%1$.2f cm</string>
+    <string name="patient_weight">Patient Weight*</string>
+    <string name="p_info_weight">%1$.2f kg</string>
     <string name="attending_provider">Attending Provider</string>
     <string name="institution_name">Institution Name</string>
-    <string name="date">Date</string>
+    <string name="why_height_weight">patient height and weight are used to calculate total body surface area</string>
+    <string name="date">Date*</string>
     <string name="add_patient">add patient</string>
     <string name="patient_id">patient ID: %1$s</string>
     <string name="db_id">local database ID: %1$s</string>
     <string name="card_date">Date: %1$s</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="capture">Capture</string>
     <string name="camera_permission_required">Taking a photo requires camera permission</string>
     <string name="patient_detail">Patient Detail</string>
+    <string name="surface_area">%1$.2f m\u00B2</string>
+    <string name="title_body_surface_area">body surface area (%1$s):</string>
 </resources>

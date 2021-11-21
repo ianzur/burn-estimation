@@ -12,6 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
 package com.example.burnestimation
@@ -479,6 +480,8 @@ class CameraFragment : Fragment() {
         _fragmentCameraBinding = null
         super.onDestroyView()
     }
+
+
 
     companion object {
         private val TAG = CameraFragment::class.java.simpleName

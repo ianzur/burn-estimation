@@ -10,10 +10,6 @@ import com.example.burnestimation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import android.net.Uri
-import androidx.annotation.AnyRes
-
-
-
 
 
 @Database(entities = [Patient::class], version = 1, exportSchema = false)
@@ -45,12 +41,12 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                 Patient(
                     null,
                     "D5GF5EJKQ30G",
-                    "John Smith",
-                    180,
-                    150,
+                    "--",
+                    70.0f * 2.54f,
+                    150.0f / 2.205f,
                     "11/23/21",
                     "Dr. Bunsen Honeydew",
-                    "www.vicburns.org.au The Victorian Adult Burns Service, Alfred Health, Melbourne, Australia",
+                    "Victorian Adult Burns Service",
                     R.drawable.vicburns_36.toString()
                 )
             )
@@ -59,14 +55,13 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                 Patient(
                     null,
                     "FJ0Y2S7HLQ42",
-                    "Ed Smith",
-                    180,
-                    150,
+                    "--",
+                    67.0f * 2.54f,
+                    150.0f / 2.205f,
                     "11/23/21",
                     "Dr. Bunsen Honeydew",
-                    "www.vicburns.org.au The Victorian Adult Burns Service, Alfred Health, Melbourne, Australia",
+                    "Victorian Adult Burns Service",
                     R.drawable.vicburns_16.toString()
-
                 )
             )
 
@@ -74,9 +69,9 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                 Patient(
                     null,
                     "A5DR863FL4E3",
-                    "Baby Smith",
-                    24,
-                    18,
+                    "--",
+                    24.0f * 2.54f,
+                    25f / 2.205f,
                     "11/23/21",
                     "Dr. Bunsen Honeydew",
                     "unknown",
@@ -84,30 +79,7 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                 )
             )
         }
-
-        /**
-         * get uri to drawable or any other resource type if u wish
-         * @param context - context
-         * @param drawableId - drawable res id
-         * @return - uri
-         *
-         * from: https://stackoverflow.com/a/36062748/8615419
-         */
-        fun getUriToDrawable(
-            context: Context,
-            drawableId: Int
-        ): Uri {
-            return Uri.parse(
-                ContentResolver.SCHEME_ANDROID_RESOURCE
-                        + "://" + context.resources.getResourcePackageName(drawableId)
-                        + '/' + context.resources.getResourceTypeName(drawableId)
-                        + '/' + context.resources.getResourceEntryName(drawableId)
-            )
-        }
-
     }
-
-
 
     companion object {
         // Singleton prevent multiple instance of database opening at the same time

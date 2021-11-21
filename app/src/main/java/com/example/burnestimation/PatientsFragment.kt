@@ -2,9 +2,7 @@ package com.example.burnestimation
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -54,6 +52,8 @@ class PatientsFragment : Fragment() {
             patients.let { adapter.submitList(it) }
         }
 
+        setHasOptionsMenu(true)
+
         return view
     }
 
@@ -67,12 +67,16 @@ class PatientsFragment : Fragment() {
         setupFab()
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        inflater.inflate(R.menu.patients_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
     /**
      * Setup options menu
      */
     private fun setupOptionsMenu() {
-        // TODO: add menu here (search|sort, about. etc)
-
 
     }
 

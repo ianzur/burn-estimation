@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/about"
+        android:title="About" >
+    </item>
+    <item android:id="@+id/settings"
+        android:title="Settings" >
+        <menu>
+            <item android:id="@+id/institution"
+                android:title="default clinic" />
+            <item android:id="@+id/physician"
+                android:title="default physician" />
+        </menu>
+    </item>
+    <item android:id="@+id/feedback"
+        android:title="Help &amp; Feedback">
+    </item>
+</menu>

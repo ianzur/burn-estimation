@@ -25,6 +25,9 @@
         <argument
             android:name="patientID"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_patientDetailFragment_to_patientsFragment"
+            app:destination="@id/patientsFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientNewFragment"
@@ -58,7 +61,9 @@
             app:argType="string" />
         <action
             android:id="@+id/action_cameraFragment_to_patientDetailFragment"
-            app:destination="@id/patientDetailFragment" />
+            app:destination="@id/patientDetailFragment"
+            app:popUpTo="@id/patientsFragment"
+            app:popUpToInclusive="true" />
         <argument
             android:name="patientDBID"
             app:argType="integer" />

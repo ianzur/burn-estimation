@@ -5,14 +5,13 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.graphics.set
 import androidx.core.net.UriCompat
@@ -80,6 +79,15 @@ class PatientDetailFragment : Fragment() {
             }
 
             // set other patient info
+            view.findViewById<TextView>(R.id.patient_name).text = it.name
+            view.findViewById<TextView>(R.id.patient_height).text = resources.getString(R.string.p_info_height, it.height)
+            view.findViewById<TextView>(R.id.patient_weight).text = resources.getString(R.string.p_info_weight, it.weight)
+            view.findViewById<TextView>(R.id.title_surface_area).text = resources.getString(R.string.title_body_surface_area, "Du Bois")
+            view.findViewById<TextView>(R.id.patient_total_skin_area).text = resources.getString(R.string.surface_area, it.bodySurfaceArea())
+            view.findViewById<TextView>(R.id.patient_hospital_id).text = it.hospitalId
+            view.findViewById<TextView>(R.id.patient_database_id).text = it.id.toString()
+            view.findViewById<TextView>(R.id.institution).text = it.institution
+            view.findViewById<TextView>(R.id.health_care_provider).text = it.attendingProvider
 
         })
 

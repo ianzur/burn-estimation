@@ -110,9 +110,9 @@
                                 android:text="Name: " />
 
                             <TextView
+                                android:id="@+id/patient_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:text=""
                                 tools:text="fergilious" />
                         </TableRow>
@@ -127,9 +127,9 @@
                                 android:text="Height: " />
 
                             <TextView
+                                android:id="@+id/patient_height"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:text=""
                                 tools:text="fergilious" />
                         </TableRow>
@@ -144,10 +144,9 @@
                                 android:text="Weight: " />
 
                             <TextView
+                                android:id="@+id/patient_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:text="asdfasdf"
                                 tools:text="fergilious" />
                         </TableRow>
 
@@ -156,15 +155,16 @@
                             android:layout_height="match_parent">
 
                             <TextView
+                                android:id="@+id/title_surface_area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Estimated total skin area: " />
+                                android:text="@string/title_body_surface_area" />
 
                             <TextView
+                                android:id="@+id/patient_total_skin_area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:text=""
+                                android:text="@string/surface_area"
                                 tools:text="fergilious" />
                         </TableRow>
 
@@ -178,9 +178,9 @@
                                 android:text="database id: " />
 
                             <TextView
+                                android:id="@+id/patient_database_id"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:text="1"
                                 tools:text="1" />
                         </TableRow>
@@ -195,9 +195,9 @@
                                 android:text="patient id: " />
 
                             <TextView
+                                android:id="@+id/patient_hospital_id"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:text=""
                                 tools:text="fergilious" />
                         </TableRow>
@@ -212,9 +212,9 @@
                                 android:text="institution: " />
 
                             <TextView
+                                android:id="@+id/institution"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:text=""
                                 tools:text="fergilious" />
                         </TableRow>
@@ -229,9 +229,9 @@
                                 android:text="health care provider: " />
 
                             <TextView
+                                android:id="@+id/health_care_provider"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
                                 android:text=""
                                 tools:text="fergilious" />
                         </TableRow>
