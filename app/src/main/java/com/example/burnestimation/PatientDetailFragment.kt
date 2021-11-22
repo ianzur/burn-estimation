@@ -20,8 +20,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.example.burnestimation.ml.Deeplabv3257MvGpu
 import com.example.burnestimation.viewmodels.PatientViewModel
 import com.example.burnestimation.viewmodels.PatientViewModelFactory
+import org.tensorflow.lite.support.image.TensorImage
 import java.io.File
 
 
@@ -39,9 +41,10 @@ class PatientDetailFragment : Fragment() {
         PatientViewModelFactory((requireActivity().application as PatientsApplication).repository)
     }
 
+    private lateinit var img: TensorImage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -56,6 +59,32 @@ class PatientDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val imageView = view.findViewById<ImageView>(R.id.image_view)
 
+        view.findViewById<Button>(R.id.run_model).setOnClickListener {
+            // do deeplab
+            val model = Deeplabv3257MvGpu.newInstance(requireContext())
+
+            // Runs model inference and gets result.
+            val outputs = model.process(img)
+
+            println(outputs.segmentationMasksAsTensorBuffer.floatArray.indices)
+//            for (i in (0..20)) {
+//
+//            }
+
+//            Log.d(TAG, outputs.segmentationMasksAsTensorBuffer.shape)
+
+//            outputs.
+
+//            val segmentationMasks = outputs.segmentationMasksAsCategoryList
+
+//            Log.d(TAG, segmentationMasks.size.toString())
+
+            // Releases model resources if no longer used.
+            model.close()
+
+            // do manual color segmentation
+
+        }
 
         patientViewModel.getPatient(args.patientID).observe(viewLifecycleOwner, Observer {
             Log.d(TAG, it.imageUri)
@@ -75,6 +104,7 @@ class PatientDetailFragment : Fragment() {
                 } else {
                     val bitmap = BitmapFactory.decodeFile(it.imageUri)
                     imageView.setImageBitmap(bitmap)
+                    img = TensorImage.fromBitmap(bitmap)
                 }
             }
 

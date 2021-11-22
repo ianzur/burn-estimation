@@ -9,27 +9,105 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="268dp">
+        tools:layout_editor_absoluteX="-140dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <ImageView
                 android:id="@+id/image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:layout_margin="8dp"
                 android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="8dp"
                 android:scaleType="fitCenter"
                 tools:src="@drawable/vicburns_36">
 
             </ImageView>
 
+            <!--            <androidx.cardview.widget.CardView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="8dp">-->
+
+            <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content" >-->
+
+            <!--                    <LinearLayout-->
+            <!--                        android:id="@+id/fixed_layout_gallery"-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:padding="8dp"-->
+            <!--                        app:layout_constraintTop_toTopOf="parent">-->
+
+            <!--                        <TextView-->
+            <!--                            android:layout_width="0dp"-->
+            <!--                            android:layout_height="match_parent"-->
+            <!--                            android:layout_gravity="center_vertical"-->
+            <!--                            android:layout_marginStart="8dp"-->
+            <!--                            android:layout_weight="1"-->
+            <!--                            android:text="Gallery"-->
+            <!--                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />-->
+
+            <!--                        &lt;!&ndash;This is ImageButton for the expansion icon.&ndash;&gt;-->
+            <!--                        <ImageView-->
+            <!--                            android:id="@+id/create_new_img"-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:paddingStart="16dp"-->
+            <!--                            android:paddingEnd="16dp"-->
+            <!--                            android:src="@drawable/ic_baseline_add_24" />-->
+
+            <!--                    </LinearLayout>-->
+
+            <!--                    <View-->
+            <!--                        android:id="@+id/divider_gallery"-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="2dp"-->
+            <!--                        android:background="?android:attr/listDivider"-->
+            <!--                        android:visibility="gone"-->
+            <!--                        app:layout_constraintTop_toBottomOf="@id/fixed_layout_gallery"-->
+            <!--                        tools:visibility="visible" />-->
+
+
+            <!--&lt;!&ndash;                    <androidx.recyclerview.widget.RecyclerView&ndash;&gt;-->
+            <!--&lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;                        app:layout_constraintTop_toBottomOf="@+id/divider_gallery" />&ndash;&gt;-->
+
+            <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <!--            </androidx.cardview.widget.CardView>-->
+
             <!--Patient Info CardView-->
+
+            <Button
+                android:id="@+id/run_model"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="64dp"
+                android:text="Estimate %TBSA" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/result_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Est. Total Burn Skin Area: %1$d %%"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                tools:text="Est. Total Burn Skin Area: \t 24%">
+
+            </TextView>
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_patient"
                 android:layout_width="match_parent"

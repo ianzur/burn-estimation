@@ -2,6 +2,7 @@ package com.example.burnestimation.datamodel
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.res.AssetManager
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -10,6 +11,8 @@ import com.example.burnestimation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import android.net.Uri
+import java.io.File
+import java.io.IOException
 
 
 @Database(entities = [Patient::class], version = 1, exportSchema = false)
@@ -47,7 +50,7 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                     "11/23/21",
                     "Dr. Bunsen Honeydew",
                     "Victorian Adult Burns Service",
-                    R.drawable.vicburns_36.toString()
+                    getCacheFile(context, "vicburns_36.jpg").absolutePath
                 )
             )
 
@@ -61,7 +64,7 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                     "11/23/21",
                     "Dr. Bunsen Honeydew",
                     "Victorian Adult Burns Service",
-                    R.drawable.vicburns_16.toString()
+                    getCacheFile(context, "vicburns_16.jpg").absolutePath
                 )
             )
 
@@ -75,7 +78,7 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                     "11/23/21",
                     "Dr. Bunsen Honeydew",
                     "unknown",
-                    R.drawable.burned_baby.toString()
+                    getCacheFile(context, "burned_baby.png").absolutePath
                 )
             )
         }
@@ -106,5 +109,12 @@ public abstract class PatientRoomDatabase: RoomDatabase() {
                 instance
             }
         }
+
+        // https://stackoverflow.com/a/19765960/8615419
+        @Throws(IOException::class)
+        fun getCacheFile(context: Context, filename: String): File = File(context.cacheDir, filename)
+            .also {
+                it.outputStream().use { cache -> context.assets.open(filename).use { it.copyTo(cache) } }
+            }
     }
 }
