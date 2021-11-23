@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Est. Total Burn Skin Area: %1$d %%"
+                android:text="@string/total_burn_skin_area"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 tools:text="Est. Total Burn Skin Area: \t 24%">
 

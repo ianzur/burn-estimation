@@ -25,4 +25,5 @@
     <string name="patient_detail">Patient Detail</string>
     <string name="surface_area">%1$.2f m\u00B2</string>
     <string name="title_body_surface_area">body surface area (%1$s):</string>
+    <string name="total_burn_skin_area">Est. Total Burn Skin Area: %1$d %%</string>
 </resources>

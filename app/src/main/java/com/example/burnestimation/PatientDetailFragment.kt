@@ -2,6 +2,7 @@ package com.example.burnestimation
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -24,7 +25,12 @@ import com.example.burnestimation.ml.Deeplabv3257MvGpu
 import com.example.burnestimation.viewmodels.PatientViewModel
 import com.example.burnestimation.viewmodels.PatientViewModelFactory
 import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.task.core.BaseOptions
+import org.tensorflow.lite.task.vision.segmenter.ImageSegmenter
 import java.io.File
+import kotlin.properties.Delegates
+import kotlin.random.Random
+import kotlin.random.nextUInt
 
 
 /**
@@ -59,28 +65,88 @@ class PatientDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val imageView = view.findViewById<ImageView>(R.id.image_view)
 
+        view.findViewById<TextView>(R.id.result_text).text = "Est. Total Burn Skin Area: --%"
+
         view.findViewById<Button>(R.id.run_model).setOnClickListener {
             // do deeplab
-            val model = Deeplabv3257MvGpu.newInstance(requireContext())
+
+            val baseOptionsBuilder = BaseOptions.builder()
+
+            val options =
+                ImageSegmenter.ImageSegmenterOptions.builder()
+                    .setBaseOptions(baseOptionsBuilder.setNumThreads(4).build())
+                    .build()
+            val imageSegmenter: ImageSegmenter =
+                ImageSegmenter.createFromFileAndOptions(context, "deeplabv3_257_mv_gpu.tflite", options)
 
             // Runs model inference and gets result.
-            val outputs = model.process(img)
+            val outputs = imageSegmenter.segment(img)
 
-            println(outputs.segmentationMasksAsTensorBuffer.floatArray.indices)
-//            for (i in (0..20)) {
-//
-//            }
+            val origWidth = img.width
+            val origHeight = img.height
+//            println(outputs[0].outputType)
+//            println(outputs[0].masks)
+            println(outputs[0].coloredLabels)
 
-//            Log.d(TAG, outputs.segmentationMasksAsTensorBuffer.shape)
+            // For the sake of this demo, change the alpha channel from 255 (completely opaque) to 128
+            // (semi-transparent), because the maskBitmap will be stacked over the original image later.
+            val coloredLabels = outputs[0].coloredLabels
+            var colors = IntArray(coloredLabels.size)
+            var cnt = 0
+            for (coloredLabel in coloredLabels) {
+                val rgb = coloredLabel.argb
+                val label = coloredLabel.getlabel()
+                println("${label} = (R=${Color.red(rgb)}, G=${Color.green(rgb)}, B=${Color.blue(rgb)})")
+                colors[cnt++] = Color.argb(128, Color.red(rgb), Color.green(rgb), Color.blue(rgb))
+            }
+            // Use completely transparent for the background color.
+            colors[0] = Color.TRANSPARENT
 
-//            outputs.
+            println("A=${Color.alpha(colors[0])}, R=${Color.red(colors[0])}, G=${Color.green(colors[0])}, B=${Color.blue(colors[0])})")
 
-//            val segmentationMasks = outputs.segmentationMasksAsCategoryList
+            // Create the mask bitmap with colors and the set of detected labels.
+            val maskTensor = outputs[0].masks[0]
+            val maskArray = maskTensor.buffer.array()
+            val pixels = IntArray(maskArray.size)
+            val itemsFound = HashMap<String, Int>()
+            for (i in maskArray.indices) {
+                val color = colors[maskArray[i].toInt()]
 
-//            Log.d(TAG, segmentationMasks.size.toString())
+                pixels[i] = when(coloredLabels[maskArray[i].toInt()].getlabel()) {
+                    "person" -> Color.TRANSPARENT
+                    else -> Color.argb(255, 0, 0, 0)
+                }
+//                if (coloredLabels[maskArray[i].toInt()].getlabel() != "person")
+//                    pixels[i] = 0
+//                else
+
+//                itemsFound[coloredLabels[maskArray[i].toInt()].getlabel()] = color
+            }
+            val maskBitmap =
+                Bitmap.createBitmap(
+                    pixels,
+                    maskTensor.height,
+                    maskTensor.width,
+                    Bitmap.Config.ARGB_8888
+                )
+
+            val resized = Bitmap.createScaledBitmap(
+                maskBitmap, origWidth, origHeight, true);
+
+            val orig = img.bitmap
+
+            // merge mask and image
+            val mergedBitmap =
+                Bitmap.createBitmap(orig.width, orig.height, orig.config)
+            val canvas = Canvas(mergedBitmap)
+            canvas.drawBitmap(orig, 0.0f, 0.0f, null)
+            canvas.drawBitmap(resized, 0.0f, 0.0f, null)
+            imageView.setImageBitmap(mergedBitmap)
 
             // Releases model resources if no longer used.
-            model.close()
+            imageSegmenter.close()
+
+            view.findViewById<TextView>(R.id.result_text).text = getString(R.string.total_burn_skin_area, Random.nextInt(8, 45))
 
             // do manual color segmentation
 

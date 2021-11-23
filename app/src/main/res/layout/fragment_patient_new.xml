@@ -12,7 +12,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/form_spacing"
-            android:showDividers="middle"
             android:divider="@drawable/divider" >
 
             <com.google.android.material.textfield.TextInputLayout
@@ -21,7 +20,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/patient_name_hint"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:importantForAutofill="no">
+                android:importantForAutofill="no"
+                app:errorEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/patientName"
@@ -40,7 +40,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:importantForAutofill="no"
                 app:endIconDrawable="@drawable/ic_baseline_refresh_24"
-                app:endIconMode="custom" >
+                app:endIconMode="custom"
+                app:errorEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/patientID"
@@ -130,7 +131,8 @@
                 android:hint="@string/attending_provider"
                 android:importantForAutofill="no"
                 app:endIconDrawable="@drawable/ic_baseline_masks_24"
-                app:endIconMode="custom" >
+                app:endIconMode="custom"
+                app:errorEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/attendingProvider"
@@ -149,7 +151,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:importantForAutofill="no"
                 app:endIconDrawable="@drawable/ic_baseline_local_hospital_24"
-                app:endIconMode="custom" >
+                app:endIconMode="custom"
+                app:errorEnabled="true" >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/institution"
