@@ -219,9 +219,11 @@ class PatientNewFragment : Fragment() {
         }
 
         if (! requireView().findViewById<CheckBox>(R.id.checkBoxUsageNotification).isChecked) {
-            requireView().findViewById<CheckBox>(R.id.checkBoxUsageNotification).setTextColor(Color.RED)
+            requireView().findViewById<CheckBox>(R.id.checkBoxUsageNotification).setTextColor(Color.rgb(176, 0, 32))
+            requireView().findViewById<CheckBox>(R.id.checkBoxUsageNotification).error = "required"
             res = false
         } else {
+            requireView().findViewById<CheckBox>(R.id.checkBoxUsageNotification).error = null
             requireView().findViewById<CheckBox>(R.id.checkBoxUsageNotification).setTextColor(Color.GRAY)
         }
 

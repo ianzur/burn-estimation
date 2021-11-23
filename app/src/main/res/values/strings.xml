@@ -8,6 +8,7 @@
     <string name="button_cancel">cancel</string>
     <string name="button_camera">camera</string>
     <string name="button_generate">generate</string>
+    <string name="button_continue">Continue</string>
     <string name="patient_height">Patient Height*</string>
     <string name="p_info_height">%1$.2f cm</string>
     <string name="patient_weight">Patient Weight*</string>
