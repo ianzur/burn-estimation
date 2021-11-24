@@ -7,23 +7,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.burnestimation.camerautils.ImageUtils
 import com.example.burnestimation.imgsegmentation.ImageSegmentationModelExecutor
-import com.example.burnestimation.imgsegmentation.ModelExecutionResult
+import com.example.burnestimation.imgsegmentation.SegmentationResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExecutorCoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
 
-private const val TAG = "nnSegViewModel"
+private const val TAG = "SegmentationViewModel"
 
-// ignore warning that this class name starts with lower case
-@Suppress("ClassName")
-class nnSegmentationViewModel : ViewModel() {
+class SegmentationViewModel : ViewModel() {
 
-    private val _resultingBitmap = MutableLiveData<ModelExecutionResult>()
+    private val _bodyMaskBitmap = MutableLiveData<SegmentationResult>()
+    private val _burnMaskBitmap = MutableLiveData<SegmentationResult>()
 
-    val resultingBitmap: LiveData<ModelExecutionResult>
-        get() = _resultingBitmap
+    val bodyBitmap: LiveData<SegmentationResult>
+        get() = _bodyMaskBitmap
+
+    val burnBitmap: LiveData<SegmentationResult>
+        get() = _burnMaskBitmap
 
     private val viewModelJob = Job()
     private val viewModelScope = CoroutineScope(viewModelJob)
@@ -40,10 +42,10 @@ class nnSegmentationViewModel : ViewModel() {
             val contentImage = ImageUtils.decodeBitmap(File(filePath))
             try {
                 val result = imageSegmentationModel?.execute(contentImage)
-                _resultingBitmap.postValue(result)
+                _bodyMaskBitmap.postValue(result)
             } catch (e: Exception) {
                 Log.e(TAG, "Fail to execute ImageSegmentationModelExecutor: ${e.message}")
-                _resultingBitmap.postValue(null)
+                _bodyMaskBitmap.postValue(null)
             }
         }
     }

@@ -18,11 +18,9 @@ package com.example.burnestimation.imgsegmentation
 
 import android.graphics.Bitmap
 
-data class ModelExecutionResult(
+data class SegmentationResult(
     val bitmapResult: Bitmap,
     val bitmapOriginal: Bitmap,
     val bitmapMaskOnly: Bitmap,
     val executionLog: String,
-    // A map between labels and colors of the items found.
-    val itemsFound: Map<String, Int>
 )
