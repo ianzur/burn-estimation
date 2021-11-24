@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_patientDetailFragment_to_patientsFragment"
             app:destination="@id/patientsFragment" />
+        <action
+            android:id="@+id/action_patientDetailFragment_to_nnSegmentationFragment"
+            app:destination="@id/nnSegmentationFragment" />
     </fragment>
     <fragment
         android:id="@+id/patientNewFragment"
@@ -67,5 +70,23 @@
         <argument
             android:name="patientDBID"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/nnSegmentationFragment"
+        android:name="com.example.burnestimation.nnSegmentationFragment"
+        android:label="nn_sementation_fragment"
+        tools:layout="@layout/nn_sementation_fragment" >
+        <action
+            android:id="@+id/action_nnSegmentationFragment_to_colorThresholdSegmentationFragment"
+            app:destination="@id/colorThresholdSegmentationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/colorThresholdSegmentationFragment"
+        android:name="com.example.burnestimation.ColorThresholdSegmentationFragment"
+        android:label="color_threshold_segmentation_fragment"
+        tools:layout="@layout/color_threshold_segmentation_fragment" >
+        <action
+            android:id="@+id/action_colorThresholdSegmentationFragment_to_patientDetailFragment"
+            app:destination="@id/patientDetailFragment" />
     </fragment>
 </navigation>

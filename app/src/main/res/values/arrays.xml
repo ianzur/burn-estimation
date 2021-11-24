@@ -8,4 +8,12 @@
         <item>0</item>
         <item>255</item>
     </string-array>
+    <string-array name="model_selection">
+        <item>deeplab v3 small</item>
+        <item>deeplab v3</item>
+    </string-array>
+    <string-array name="color_space">
+        <item>Lab</item>
+        <item>HSV</item>
+    </string-array>
 </resources>
