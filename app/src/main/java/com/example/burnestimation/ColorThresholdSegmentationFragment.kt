@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.burnestimation.viewmodels.ColorThresholdSegmentationViewModel
+import androidx.fragment.app.activityViewModels
+import com.example.burnestimation.viewmodels.SegmentationViewModel
 
 class ColorThresholdSegmentationFragment : Fragment() {
 
@@ -14,7 +15,8 @@ class ColorThresholdSegmentationFragment : Fragment() {
         fun newInstance() = ColorThresholdSegmentationFragment()
     }
 
-    private lateinit var viewModel: ColorThresholdSegmentationViewModel
+    // delegate class
+    private val viewModel: SegmentationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +27,7 @@ class ColorThresholdSegmentationFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ColorThresholdSegmentationViewModel::class.java)
+
         // TODO: Use the ViewModel
     }
 

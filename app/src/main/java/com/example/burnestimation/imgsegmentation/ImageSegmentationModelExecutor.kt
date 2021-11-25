@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2019 Google LLC
  *
@@ -15,6 +14,8 @@
  * limitations under the License.
  */
 
+// Modified, Nov 2021 by ianzur
+
 package com.example.burnestimation.imgsegmentation
 
 import android.content.Context
@@ -23,8 +24,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.os.SystemClock
 import android.util.Log
-import com.example.burnestimation.imgsegmentation.ModelExecutionResult
-import kotlin.collections.HashMap
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.vision.segmenter.ImageSegmenter
@@ -41,8 +40,11 @@ import org.tensorflow.lite.task.vision.segmenter.Segmentation
  * Label names: 'background', 'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat',
  * 'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike', 'person', 'pottedplant', 'sheep',
  * 'sofa', 'train', 'tv'
+ *
+ * We don't care about any label other than "person", index == 15
+ *
  */
-class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boolean = false) {
+class ImageSegmentationModelExecutor(context: Context) {
 
     private val imageSegmenter: ImageSegmenter
 
@@ -52,9 +54,7 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
 
     init {
         val baseOptionsBuilder = BaseOptions.builder()
-        if (useGPU) {
-            baseOptionsBuilder.useGpu()
-        }
+
         val options =
             ImageSegmenterOptions.builder()
                 .setBaseOptions(baseOptionsBuilder.setNumThreads(NUM_THREADS).build())
@@ -63,7 +63,7 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
             ImageSegmenter.createFromFileAndOptions(context, IMAGE_SEGMENTATION_MODEL, options)
     }
 
-    fun execute(inputImage: Bitmap): ModelExecutionResult {
+    fun execute(inputImage: Bitmap): SegmentationResult {
         try {
             fullTimeExecutionTime = SystemClock.uptimeMillis()
 
@@ -74,33 +74,31 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
             Log.d(TAG, "Time to run the ImageSegmenter $imageSegmentationTime")
 
             maskFlatteningTime = SystemClock.uptimeMillis()
-            val (maskBitmap, itemsFound) =
-                createMaskBitmapAndLabels(results.get(0), inputImage.getWidth(), inputImage.getHeight())
+            val maskBitmap =
+                createMaskBitmapAndLabels(results[0], inputImage.width, inputImage.height)
             maskFlatteningTime = SystemClock.uptimeMillis() - maskFlatteningTime
             Log.d(TAG, "Time to create the mask and labels $maskFlatteningTime")
 
             fullTimeExecutionTime = SystemClock.uptimeMillis() - fullTimeExecutionTime
             Log.d(TAG, "Total time execution $fullTimeExecutionTime")
 
-            return ModelExecutionResult(
+            return SegmentationResult(
                 /*bitmapResult=*/ stackTwoBitmaps(maskBitmap, inputImage),
                 /*bitmapOriginal=*/ inputImage,
                 /*bitmapMaskOnly=*/ maskBitmap,
-                formatExecutionLog(inputImage.getWidth(), inputImage.getHeight()),
-                itemsFound
+                formatExecutionLog(inputImage.width, inputImage.height),
             )
         } catch (e: Exception) {
             val exceptionLog = "something went wrong: ${e.message}"
             Log.d(TAG, exceptionLog)
 
             val emptyBitmap =
-                Bitmap.createBitmap(inputImage.getWidth(), inputImage.getHeight(), Bitmap.Config.ARGB_8888)
-            return ModelExecutionResult(
+                Bitmap.createBitmap(inputImage.width, inputImage.height, Bitmap.Config.ARGB_8888)
+            return SegmentationResult(
                 emptyBitmap,
                 emptyBitmap,
                 emptyBitmap,
                 exceptionLog,
-                HashMap<String, Int>()
             )
         }
     }
@@ -109,53 +107,43 @@ class ImageSegmentationModelExecutor(context: Context, private var useGPU: Boole
         result: Segmentation,
         inputWidth: Int,
         inputHeight: Int
-    ): Pair<Bitmap, Map<String, Int>> {
-        // For the sake of this demo, change the alpha channel from 255 (completely opaque) to 128
-        // (semi-transparent), because the maskBitmap will be stacked over the original image later.
-        val coloredLabels = result.getColoredLabels()
-        var colors = IntArray(coloredLabels.size)
-        var cnt = 0
-        for (coloredLabel in coloredLabels) {
-            val rgb = coloredLabel.getArgb()
-            colors[cnt++] = Color.argb(ALPHA_VALUE, Color.red(rgb), Color.green(rgb), Color.blue(rgb))
-        }
-        // Use completely transparent for the background color.
-        colors[0] = Color.TRANSPARENT
+    ): Bitmap {
 
         // Create the mask bitmap with colors and the set of detected labels.
-        val maskTensor = result.getMasks().get(0)
-        val maskArray = maskTensor.getBuffer().array()
+        val maskTensor = result.masks[0]
+        val maskArray = maskTensor.buffer.array()
         val pixels = IntArray(maskArray.size)
-        val itemsFound = HashMap<String, Int>()
+
         for (i in maskArray.indices) {
-            val color = colors[maskArray[i].toInt()]
-            pixels[i] = color
-            itemsFound.put(coloredLabels.get(maskArray[i].toInt()).getlabel(), color)
+            pixels[i] = when (result.coloredLabels[maskArray[i].toInt()].getlabel()) {
+                "person" -> Color.TRANSPARENT
+                else -> Color.argb(255, 0, 0, 0)
+            }
         }
+
         val maskBitmap =
             Bitmap.createBitmap(
                 pixels,
-                maskTensor.getWidth(),
-                maskTensor.getHeight(),
+                maskTensor.width,
+                maskTensor.height,
                 Bitmap.Config.ARGB_8888
             )
         // Scale the maskBitmap to the same size as the input image.
-        return Pair(Bitmap.createScaledBitmap(maskBitmap, inputWidth, inputHeight, true), itemsFound)
+        return Bitmap.createScaledBitmap(maskBitmap, inputWidth, inputHeight, true)
     }
 
-    private fun stackTwoBitmaps(foregrand: Bitmap, background: Bitmap): Bitmap {
+    private fun stackTwoBitmaps(foreground: Bitmap, background: Bitmap): Bitmap {
         val mergedBitmap =
-            Bitmap.createBitmap(foregrand.getWidth(), foregrand.getHeight(), foregrand.getConfig())
+            Bitmap.createBitmap(foreground.width, foreground.height, foreground.config)
         val canvas = Canvas(mergedBitmap)
         canvas.drawBitmap(background, 0.0f, 0.0f, null)
-        canvas.drawBitmap(foregrand, 0.0f, 0.0f, null)
+        canvas.drawBitmap(foreground, 0.0f, 0.0f, null)
         return mergedBitmap
     }
 
     private fun formatExecutionLog(imageWidth: Int, imageHeight: Int): String {
         val sb = StringBuilder()
         sb.append("Input Image Size: $imageWidth x $imageHeight\n")
-        sb.append("GPU enabled: $useGPU\n")
         sb.append("Number of threads: $NUM_THREADS\n")
         sb.append("ImageSegmenter execution time: $imageSegmentationTime ms\n")
         sb.append("Mask creation time: $maskFlatteningTime ms\n")

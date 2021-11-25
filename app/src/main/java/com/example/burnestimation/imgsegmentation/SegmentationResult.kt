@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// Modified Nov 2021 by ianzur
+
 package com.example.burnestimation.imgsegmentation
 
 import android.graphics.Bitmap

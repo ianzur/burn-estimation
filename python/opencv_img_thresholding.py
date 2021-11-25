@@ -98,7 +98,7 @@ def color_space_limits(space: str):
         channels = ["H","S","V"]
         high_a = 360//2
     elif space == "rgb":
-        channels = ["B", "G", "R"]
+        channels = ["R", "G", "B"]
     elif space == "lab":
         channels = ["L", "a", "b"]
     elif space == "luv":
@@ -117,24 +117,36 @@ def color_space_limits(space: str):
 def main(args):
 
     img = cv.imread(str(args.image))
+    print(img.shape)
     
     color_space = args.color_space.lower()
     
+    to_space = None
+    from_space = None
+    
     if color_space == "hsv":
-        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        to_space = cv.COLOR_BGR2HSV
+        from_space = cv.COLOR_HSV2BGR
     elif color_space == "rgb":
-        pass
+        to_space = cv.COLOR_BGR2RGB
+        from_space = cv.COLOR_RGB2BGR
     elif color_space == "lab":
-        img = cv.cvtColor(img, cv.COLOR_BGR2LAB)
+        to_space = cv.COLOR_BGR2Lab
+        from_space = cv.COLOR_Lab2BGR
     elif color_space == "luv":
-        img = cv.cvtColor(img, cv.COLOR_BGR2LUV)
+        to_space = cv.COLOR_BGR2LUV
+        from_space = cv.COLOR_LUV2BGR
     elif color_space == "ycrcb":
-        img = cv.cvtColor(img, cv.COLOR_BGR2YCrCb)
+        to_space = cv.COLOR_BGR2YCrCb
+        from_space = cv.COLOR_YCrCb2BGR
     elif color_space == "xyz":
-        img = cv.cvtColor(img, cv.COLOR_BGR2XYZ)
+        to_space = cv.COLOR_BGR2XYZ
+        from_space = cv.COLOR_XYZ2BGR
     elif color_space == "yuv":
-        img = cv.cvtColor(img, cv.COLOR_BGR2YUV)
+        to_space = cv.COLOR_BGR2YUV
+        from_space = cv.COLOR_YUV2BGR
         
+    img = cv.cvtColor(img, to_space)
         
     color_space_limits(color_space)
     
@@ -157,6 +169,9 @@ def main(args):
         frame = cv.resize(frame, (640, 480))
                    
         frame_threshold = cv.inRange(frame, (low_a, low_b, low_c), (high_a, high_b, high_c))
+        
+        frame = cv.cvtColor(frame, from_space)        
+        frame_threshold = cv.bitwise_and(frame, frame, mask = frame_threshold)
         
         cv.imshow(window_capture_name, frame)
         cv.imshow(window_detection_name, frame_threshold)

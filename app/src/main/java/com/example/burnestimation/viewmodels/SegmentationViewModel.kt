@@ -16,6 +16,10 @@ import java.io.File
 
 private const val TAG = "SegmentationViewModel"
 
+
+/**
+ * This view model class stores the bitmaps for both body and burn segmentation
+ */
 class SegmentationViewModel : ViewModel() {
 
     private val _bodyMaskBitmap = MutableLiveData<SegmentationResult>()
