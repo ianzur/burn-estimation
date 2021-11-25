@@ -1,13 +1,9 @@
-# current mask fails to segment only the burn
-
 import cv2
 import numpy as np
 import PIL
 from PIL import Image
 import matplotlib.pyplot as plt
-
 from sklearn.cluster import KMeans
-
 
 #read in picture
 path = '/home/ian/Downloads/burned_baby.png'
@@ -27,11 +23,13 @@ k16_norm = (cluster_centers[cluster_labels].reshape(img.shape))/255
 
 
 # Plot image with 16 colors
-plt.figure("16")
+# plt.ion()
+plt.figure("K Means with 16")
 plt.axis("off")
-plt.title("K = 16")
+plt.title("K Means recreated image with K = 16")
 plt.imshow(k16_norm)
-plt.show()
+# plt.ioff()
+plt.show(block=False)
 
 #Mask creation
 mask_Set = []
@@ -42,15 +40,19 @@ for i in range(len(cluster_centers)):
     mask = np.moveaxis([mask_Set[-1],mask_Set[-1],mask_Set[-1]],0,-1)
     mask_img.append(mask * img)
 
-#Plot individual masks
-    fig = plt.figure()
-for i in range(1, (len(mask_img)+1)):
-    ax = fig.add_subplot(4, 4,i)
+# #Plot individual masks
+# plt.ion()
+ro = 4
+co = 4
+fig, axs = plt.subplots(nrows=ro, ncols=co, figsize=(12, 10),
+                        subplot_kw={'xticks': [], 'yticks': []})
+for i in range((len(mask_img))):
+    ax = axs[i//co, i%ro]
     ax.set_axis_off()
-    plt.imshow(mask_img[i-1])
+    ax.imshow(mask_img[i])
     ax.set_title('Mask ' + str(i))
 plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
-plt.show()
+plt.show(block=False)
 
 #user to define content of masked image
 mask_sbo = np.zeros((3,img.shape[0],img.shape[1],img.shape[2]))
@@ -61,15 +63,18 @@ for i in range(len(cluster_centers)):
 #plotting of skin, burn and other combined mask
 names=['skin', 'burn','other']
 for i in range(len(mask_sbo)):
+    # plt.ion()
     plt.figure("mask" + names[i])
     plt.axis("off")
     plt.title("Mask " + names[i])
     plt.imshow(np.uint8(mask_sbo[i]))
+    # plt.ioff()
     plt.show()
+
 sbo_sum = []
 
 #calculating % burn based on combined mask
 for m in mask_sbo:
     sbo_sum.append(np.sum(np.nonzero(m))/3)
-per_brun = sbo_sum[1]/(sbo_sum[0]+sbo_sum[1])*100
-print('Percent Burn: '+str(per_brun))
+per_burn = sbo_sum[1]/(sbo_sum[0]+sbo_sum[1])*100
+print('Percent Burn: '+str(per_burn))
